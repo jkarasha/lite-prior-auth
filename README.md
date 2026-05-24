@@ -1,4 +1,4 @@
-# Prior-Auth Assistant — a Claude API learning project
+# lite-prior-auth — a Claude API learning project
 
 A small, runnable agent that answers clinical prior-authorization and formulary
 questions by **retrieving** from a guideline corpus, **calling tools**, and
@@ -111,7 +111,7 @@ lets you run test cases against prompts without writing harness code).
 
 MCP is the open standard for exposing tools/data to any LLM client over a uniform
 protocol. `server.py` wraps `Retriever.search` as an MCP tool with `FastMCP`. Run it
-and register it with Claude Code (`claude mcp add prior-auth -- python -m mcp.server`)
+and register it with Claude Code (`claude mcp add lite-prior-auth -- python -m mcp.server`)
 and Claude Code itself can call your retrieval layer — the same primitive this
 project uses internally, now exposed as a reusable server.
 

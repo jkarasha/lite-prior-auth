@@ -5,7 +5,7 @@ AND I exposed my retrieval layer as an MCP server it consumes." That single
 sentence closes the Claude-experience gap in an interview.
 
 Run as an stdio MCP server:  python -m mcp.server
-Then add it to Claude Code via:  claude mcp add prior-auth -- python -m mcp.server
+Then add it to Claude Code via:  claude mcp add lite-prior-auth -- python -m mcp.server
 (run `claude mcp add --help` to confirm the exact flag syntax for your version)
 
 Requires: pip install "mcp[cli]"
@@ -17,7 +17,7 @@ from mcp.server.fastmcp import FastMCP
 from src.config import load
 from src.retrieval import Retriever
 
-mcp = FastMCP("prior-auth")
+mcp = FastMCP("lite-prior-auth")
 
 # Built once at startup — embedding the corpus is expensive, do it lazily on first call.
 _retriever: Retriever | None = None
