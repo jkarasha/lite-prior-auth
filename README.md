@@ -217,3 +217,9 @@ quality — it's a one-string change. Getting comfortable choosing a model per j
 skill in itself; this is a low-stakes place to practice it.
 
 **Model reference:** https://platform.claude.com/docs/en/about-claude/models/overview.md
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE). Use it, fork it, learn from it.
