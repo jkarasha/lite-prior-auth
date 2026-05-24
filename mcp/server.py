@@ -1,8 +1,8 @@
-"""MCP server wrapping the retrieval tool — the Sunday stretch goal.
+"""MCP server wrapping the retrieval tool — save this for last.
 
-This is the highest-leverage piece: it lets you say "I use Claude Code daily,
-AND I exposed my retrieval layer as an MCP server it consumes." That single
-sentence closes the Claude-experience gap in an interview.
+Doing this is what makes MCP click: instead of consuming someone else's server,
+you publish your own. It exposes the same `Retriever.search` this project uses
+internally as an MCP tool that any client — including Claude Code — can call.
 
 Run as an stdio MCP server:  python -m mcp.server
 Then add it to Claude Code via:  claude mcp add lite-prior-auth -- python -m mcp.server

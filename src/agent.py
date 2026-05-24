@@ -1,7 +1,9 @@
-"""The manual tool-use loop — the credibility piece.
+"""The manual tool-use loop — the heart of the project.
 
-This is the loop the Claude API runs for you under the hood. Writing it by hand
-is what turns "I use Claude Code daily" into "I've built tool use into a stack."
+This is the loop the SDK's tool runner and Claude Code run for you under the hood.
+Writing it out by hand once is the fastest way to understand what an agent actually
+is: a loop around a stateless API where you own tool execution. Start your reading
+here.
 
 Pattern (from the Anthropic SDK docs):
   1. call messages.create with tools

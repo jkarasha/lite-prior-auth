@@ -1,9 +1,12 @@
-"""Evaluation harness — the differentiator most candidates skip.
+"""Evaluation harness — the part most tutorials skip, and the part that matters.
 
-Scores three things the JD explicitly cares about:
+Once you've got the agent running, this is how you tell whether it's actually any
+good. It scores three things per labeled case:
   1. tool-call correctness  — did the agent call the expected tool? (exact, deterministic)
   2. appropriate refusal     — did it escalate when it should have? (deterministic)
   3. grounding quality       — is the answer supported by retrieved text? (LLM-as-judge)
+
+The lesson worth keeping: separate deterministic checks from a model grading a model.
 
 Run: python -m eval.run_eval
 """
