@@ -116,12 +116,12 @@ section at https://platform.claude.com/docs (the in-Console **Evaluation tool**
 lets you run test cases against prompts without writing harness code).
 
 ### Bonus — MCP (Model Context Protocol)
-`mcp/server.py`
+`mcp_server/server.py`
 
 Save this one for last. MCP is the open standard for exposing tools/data to any LLM
 client over a uniform protocol. `server.py` wraps `Retriever.search` as an MCP tool
 with `FastMCP`. Run it, register it with Claude Code
-(`claude mcp add lite-prior-auth -- python -m mcp.server`), and Claude Code itself can
+(`claude mcp add lite-prior-auth -- python -m mcp_server.server`), and Claude Code itself can
 call your retrieval layer — the same primitive this project uses internally, now
 exposed as a reusable server. Doing this is what made MCP finally click for me: you're
 not consuming someone else's server, you're publishing your own.
@@ -167,7 +167,7 @@ behavior.
 | `src/main.py` | CLI entry point |
 | `eval/cases.json` | labeled evaluation cases |
 | `eval/run_eval.py` | the eval harness |
-| `mcp/server.py` | MCP server wrapping retrieval |
+| `mcp_server/server.py` | MCP server wrapping retrieval |
 | `data/guidelines/` | the sample corpus (add more docs here) |
 
 ---
