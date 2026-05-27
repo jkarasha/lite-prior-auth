@@ -1,0 +1,11 @@
+[project]
+name = "lite-prior-auth"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "anthropic>=0.40",
+    "mcp[cli]>=1.2",
+    "voyageai>=0.3",
+]
