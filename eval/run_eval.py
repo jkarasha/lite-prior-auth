@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import json
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 import anthropic
 
@@ -70,7 +70,9 @@ def _score_case(case: dict, config: Config, retriever: Retriever) -> CaseScore:
 
 
 def main() -> int:
-    config = load()
+    # Tracing off here so the results table below stays clean. Drop the
+    # `replace(..., verbose=False)` to watch each case run through the loop.
+    config = replace(load(), verbose=False)
     retriever = Retriever.from_corpus(config)
     with open(CASES_PATH, encoding="utf-8") as f:
         cases = json.load(f)

@@ -6,6 +6,7 @@ import sys
 from .agent import run
 from .config import load
 from .retrieval import Retriever
+from .trace import trace
 
 
 def main(argv: list[str]) -> int:
@@ -14,6 +15,9 @@ def main(argv: list[str]) -> int:
         return 1
 
     config = load()
+    trace(config.verbose, "main",
+          f"config: agent_model={config.agent_model}, top_k={config.top_k}, "
+          f"max_turns={config.max_agent_turns}")
     retriever = Retriever.from_corpus(config)
     result = run(argv[1], config, retriever)
 

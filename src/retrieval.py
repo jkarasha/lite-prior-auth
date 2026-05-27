@@ -13,6 +13,7 @@ from dataclasses import dataclass
 import voyageai
 
 from .config import Config
+from .trace import trace
 
 
 @dataclass(frozen=True)
@@ -48,24 +49,33 @@ class Retriever:
         chunks = _load_chunks(config.corpus_dir)
         if not chunks:
             raise RuntimeError(f"No documents found in {config.corpus_dir}")
+        trace(config.verbose, "retrieval",
+              f"embedding {len(chunks)} chunk(s) once with {config.embed_model}")
         client = voyageai.Client()
         result = client.embed(
             [c.text for c in chunks],
             model=config.embed_model,
             input_type="document",
         )
+        trace(config.verbose, "retrieval", "corpus embedded — retriever ready")
         return cls(config, chunks, result.embeddings)
 
     def search(self, query: str) -> list[Hit]:
         """Return the top-k chunks most similar to the query."""
         if not query.strip():
             return []
+        verbose = self._config.verbose
+        trace(verbose, "retrieval",
+              f'search "{query}" — embedding query, ranking {len(self._chunks)} chunk(s) by cosine')
         q_vec = self._client.embed(
             [query], model=self._config.embed_model, input_type="query"
         ).embeddings[0]
         scored = [Hit(c, _cosine(q_vec, e)) for c, e in zip(self._chunks, self._embeddings)]
         scored.sort(key=lambda h: h.score, reverse=True)
-        return scored[: self._config.top_k]
+        top = scored[: self._config.top_k]
+        for h in top:
+            trace(verbose, "retrieval", f"  {h.chunk.doc_id}  score={h.score:.3f}")
+        return top
 
 
 def _load_chunks(corpus_dir: str) -> list[Chunk]:

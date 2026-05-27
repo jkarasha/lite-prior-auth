@@ -18,6 +18,10 @@ class Config:
     max_agent_turns: int = 8  # hard stop on the tool-use loop to prevent runaways
     top_k: int = 4  # retrieved chunks per query
 
+    # When True, narrate each key step of the agent loop and retrieval to stderr
+    # so you can follow the logic. On for the CLI; the eval harness turns it off.
+    verbose: bool = True
+
     corpus_dir: str = os.path.join(os.path.dirname(__file__), "..", "data", "guidelines")
 
 
