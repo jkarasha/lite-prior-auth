@@ -28,6 +28,11 @@ class Hit:
     score: float
 
 
+# TODO: this recomputes `nb` — the norm of each *stored* chunk vector — on every
+# query, even though those vectors never change after ingest. Fine for a handful of
+# chunks; wasteful O(n·d) work per search once the corpus grows. Normalize embeddings
+# once at ingest (or cache their norms) so query-time scoring becomes a plain dot
+# product. This is exactly the work a real vector store does for you.
 def _cosine(a: list[float], b: list[float]) -> float:
     dot = sum(x * y for x, y in zip(a, b))
     na = sum(x * x for x in a) ** 0.5
@@ -42,7 +47,7 @@ class Retriever:
         self._config = config
         self._chunks = chunks
         self._embeddings = embeddings
-        self._client = voyageai.Client()
+        self._client = voyageai.Client()  # query-time client; see double-client TODO in from_corpus
 
     @classmethod
     def from_corpus(cls, config: Config) -> "Retriever":
@@ -51,6 +56,10 @@ class Retriever:
             raise RuntimeError(f"No documents found in {config.corpus_dir}")
         trace(config.verbose, "retrieval",
               f"embedding {len(chunks)} chunk(s) once with {config.embed_model}")
+        # TODO: this creates a Voyage client just to embed the corpus, then __init__
+        # creates a *second* one for queries (self._client) — the first is discarded.
+        # Create a single client here and pass it into the constructor (or inject it),
+        # so we don't spin up two clients per startup.
         client = voyageai.Client()
         result = client.embed(
             [c.text for c in chunks],
